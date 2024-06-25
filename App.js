@@ -1,11 +1,14 @@
-import { StatusBar } from 'expo-status-bar';
+// import { StatusBar } from 'expo-status-bar';
 import { StyleSheet, Text, View } from 'react-native';
+import LoginView from './Screen/Login/LoginView';
+import ResultView from './Screen/Result/ResultView';
+import ResultViewModel from "./Screen/Result/ResultViewModel"
 
 export default function App() {
+  const resultViewModel = ResultViewModel()
   return (
     <View style={styles.container}>
-      <Text>Open up App.js to start working on your app!</Text>
-      <StatusBar style="auto" />
+      <ResultView viewModel={resultViewModel} />
     </View>
   );
 }
