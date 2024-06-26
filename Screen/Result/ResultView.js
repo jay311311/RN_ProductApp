@@ -1,6 +1,6 @@
 import React from 'react';
-import { StyleSheet, FlatList, SafeAreaView, Text, View, Button, Image, Dimensions, TouchableHighlight } from 'react-native';
-import useResultViewModel from "./ResultViewModel";
+import { StyleSheet, FlatList, SafeAreaView, Text, View, Button, Image, Dimensions, Pressable } from 'react-native';
+import ResultViewModel from "./ResultViewModel";
 import ModalView from './SubViews/ModalView';
 
 const ListCell = ({ title, thumbnail }) => (
@@ -10,11 +10,11 @@ const ListCell = ({ title, thumbnail }) => (
     </View>
 );
 
-function ResultView({ viewModel }) {
-    const { results, isModalVisible, nextPage, prevPage, toggleModal, hasNextPage, hasPrevPage } = viewModel;
+export default ResultView = () => {
+    const { results, isModalVisible, nextPage, prevPage, toggleModal, hasNextPage, hasPrevPage } = ResultViewModel();
 
     return (
-        <SafeAreaView style={styles.rootContainer}>
+        <SafeAreaView style={styles.container}>
             <Text style={styles.header}>ResultView!</Text>
             <FlatList
                 numColumns={2}
@@ -22,10 +22,10 @@ function ResultView({ viewModel }) {
                 renderItem={({ item }) => <ListCell title={item.title} thumbnail={item.thumbnail} />}
                 keyExtractor={item => item.resultId.toString()}
             />
-            <TouchableHighlight style={styles.fixedButton}
+            <Pressable style={styles.fixedButton}
                 onPress={toggleModal} >
                 <Text style={styles.buttonTitle}>+</Text>
-            </TouchableHighlight>
+            </Pressable>
 
             <View style={styles.pagination}>
                 <Button title="Back" onPress={prevPage} />
@@ -36,13 +36,8 @@ function ResultView({ viewModel }) {
     );
 }
 
-export default function ResultViewWrapper() {
-    const viewModel = useResultViewModel(); // Ensure viewModel is properly created
-    return <ResultView viewModel={viewModel} />;
-}
-
 const styles = StyleSheet.create({
-    rootContainer: {
+    container: {
         flex: 1,
         justifyContent: 'center',
         alignItems: 'center',
@@ -78,7 +73,6 @@ const styles = StyleSheet.create({
         width: 60,
         height: 60,
         borderRadius: 50,
-        // alignContent:'center',
         backgroundColor: "blue",
         bottom: "10%",
         right: "10%"

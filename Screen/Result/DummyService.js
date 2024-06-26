@@ -1,5 +1,3 @@
-// ResultModel.js
-
 class DummyService {
     static results = [
         { resultId: 0, thumbnail: "http://www.foodsafetykorea.go.kr/uploadimg/cook/20_00028_2.png", title: "1" },

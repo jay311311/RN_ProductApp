@@ -2,7 +2,7 @@
 import { useState } from 'react';
 import service from './DummyService';
 
-export default function useResultViewModel() {
+export default useResultViewModel = () => {
     const [page, setPage] = useState(0);
     const [isModalVisible, setIsModalVisible] = useState(false);
     const results = service.getResults(page);

@@ -1,25 +1,51 @@
-import { StyleSheet, SafeAreaView, Text, View, Button, TextInput } from 'react-native';
-// import loginViewModel from "./LoginViewModel";
+import { StyleSheet, SafeAreaView, Button, TextInput, View, Pressable } from 'react-native';
+import React, { useState } from 'react';
+import LoginViewModel from './LoginViewModel';
 
-function LoginView() {
+export default LoginView = ({ navigation }) => {
+    const [email, setEmail] = useState('');
+    const [password, setPassword] = useState('');
+    const { handleLogin, handleLoginWithGoogle } = LoginViewModel()
+
     return (
-        <SafeAreaView>
-            <View style={styles.rootContainer}>
-                <Text style={styles.title}>LoginScreen!</Text>
-                <Text>LoginScreen initialize!!</Text>
+        <SafeAreaView style={styles.container}>
+            <View>
+                <TextInput
+                    placeholder="Email"
+                    value={email}
+                    onChangeText={setEmail}
+                />
+                <TextInput
+                    placeholder="Password"
+                    value={password}
+                    onChangeText={setPassword}
+                    secureTextEntry
+                />
+                <Button title="Login"
+                    onPress={() => handleLogin(email, password)}
+                />
+                <Button title="GoogleLogin"
+                    onPress={() => handleLoginWithGoogle()}
+                />
+                <Button title="Signup"
+                    onPress={() => {
+                        navigation.navigate('Signup')
+                        setEmail("")
+                        setPassword("")
+                    }}
+                />
             </View>
         </SafeAreaView>
 
     );
 }
 
-export default LoginView;
-
 const styles = StyleSheet.create({
-    rootContainer: {
+    container: {
         flex: 1,
-        justifyContent: 'center',
+        justifyContent: 'top',
         alignItems: 'center',
+        top: 30,
         padding: 32,
     },
     title: {
