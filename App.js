@@ -1,5 +1,7 @@
 import { StyleSheet, Text, View } from 'react-native';
 import { AuthProvider, useAuth } from './Service/Auth/AuthContext';
+import { FirebaseProvider } from './Service/Firestore/FirestoreContext';
+
 import { NavigationContainer } from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack'
 import LoginView from './Screen/Login/LoginView';
@@ -16,7 +18,10 @@ const Main = () => {
   return (
     <NavigationContainer>
       <Stack.Navigator initialRouteName={currentUser == null ? "Result" : "Login"}>
-        {currentUser
+      <Stack.Screen name="Result" options={{ headerShown: false }}>
+            {props => <ResultView {...props} viewModel={resultViewModel} />}
+          </Stack.Screen>
+        {/* {currentUser
           ?
           <Stack.Screen name="Result" options={{ headerShown: false }}>
             {props => <ResultView {...props} viewModel={resultViewModel} />}
@@ -26,7 +31,7 @@ const Main = () => {
             <Stack.Screen name="Login" component={LoginView} />
             <Stack.Screen name="Signup" component={SignupView} />
           </>
-        }
+        } */}
       </Stack.Navigator>
     </NavigationContainer>
   );
@@ -36,7 +41,9 @@ export default App = () => {
   return (
     <View style={styles.container} >
       <AuthProvider>
+        <FirebaseProvider>
         <Main />
+        </FirebaseProvider>
       </AuthProvider>
     </View>
   );

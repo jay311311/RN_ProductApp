@@ -4,6 +4,7 @@ import { getCollection, addDocument, updateDocument, deleteDocument } from './Fi
 const FirestoreContext = createContext();
 
 export const FirebaseProvider = ({ children }) => {
+  
   return (
     <FirestoreContext.Provider value={{
       getCollection,

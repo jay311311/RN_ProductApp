@@ -23,7 +23,7 @@ export const AuthProvider = ({ children }) => {
       login,
       loginWithGoogle,
       logout,
-      register,
+      register
       // getCurrentUser,
     }}>
       {children}

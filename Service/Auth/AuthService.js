@@ -2,7 +2,6 @@ import {initializeAuth, getReactNativePersistence, getAuth, createUserWithEmailA
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { app } from '../firebaseConfig';
 
-// Firebase 인증 객체 초기화
 const auth = getAuth(app);
 
 const initializeFirebaseWithAsyncStorage = () => {

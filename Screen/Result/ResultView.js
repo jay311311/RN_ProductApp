@@ -11,8 +11,7 @@ const ListCell = ({ title, thumbnail }) => (
 );
 
 export default ResultView = () => {
-    const { results, isModalVisible, nextPage, prevPage, toggleModal, hasNextPage, hasPrevPage } = ResultViewModel();
-
+    const { results, isModalVisible, nextPage, prevPage, toggleModal, hasNextPage } = ResultViewModel();
     return (
         <SafeAreaView style={styles.container}>
             <Text style={styles.header}>ResultView!</Text>
@@ -20,7 +19,7 @@ export default ResultView = () => {
                 numColumns={2}
                 data={results}
                 renderItem={({ item }) => <ListCell title={item.title} thumbnail={item.thumbnail} />}
-                keyExtractor={item => item.resultId.toString()}
+                keyExtractor={item => item.resultId}
             />
             <Pressable style={styles.fixedButton}
                 onPress={toggleModal} >
@@ -28,12 +27,33 @@ export default ResultView = () => {
             </Pressable>
 
             <View style={styles.pagination}>
-                <Button title="Back" onPress={prevPage} />
+                <Button title="Back" onPress={prevPage}  />
                 <Button title="Next" onPress={nextPage} disabled={!hasNextPage} />
             </View>
             <ModalView isVisible={isModalVisible} onClose={toggleModal} />
         </SafeAreaView>
     );
+    // return (
+    //     <SafeAreaView style={styles.container}>
+    //         <Text style={styles.header}>ResultView!</Text>
+    //         <FlatList
+    //             numColumns={2}
+    //             data={results}
+    //             renderItem={({ item }) => <ListCell title={item.title} thumbnail={item.thumbnail} />}
+    //             keyExtractor={item => item.resultId}
+    //         />
+    //         <Pressable style={styles.fixedButton}
+    //             onPress={toggleModal} >
+    //             <Text style={styles.buttonTitle}>+</Text>
+    //         </Pressable>
+
+    //         <View style={styles.pagination}>
+    //             <Button title="Back" onPress={prevPage} />
+    //             <Button title="Next" onPress={nextPage} disabled={!hasNextPage} />
+    //         </View>
+    //         <ModalView isVisible={isModalVisible} onClose={toggleModal} />
+    //     </SafeAreaView>
+    // );
 }
 
 const styles = StyleSheet.create({

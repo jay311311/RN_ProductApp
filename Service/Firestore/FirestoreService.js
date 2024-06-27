@@ -1,16 +1,20 @@
-import { getFirestore, collection, getDocs, addDoc, doc, updateDoc, deleteDoc } from "firebase/firestore";
+import { getFirestore, collection, getDocs, addDoc, doc, updateDoc, deleteDoc, setDoc } from "firebase/firestore";
 import { app } from '../firebaseConfig';
 
 const firestore = getFirestore(app);
 
-export const getCollection = async (collectionName) => {
-  const querySnapshot = await getDocs(collection(firestore, collectionName));
+export const getCollection = async () => {
+  const querySnapshot = await getDocs(collection(firestore, "allResult"));
   const data = querySnapshot.docs.map(doc => ({ ...doc.data(), id: doc.id }));
   return data;
+  // const querySnapshot = await getDocs(collection(firestore, "allResult"));
+  // const data = querySnapshot.docs.map(doc => ({ ...doc.data(), id: doc.id }));
+  // return data;
 };
 
-export const addDocument = async (collectionName, data) => {
-  await addDoc(collection(firestore, collectionName), data);
+export const addDocument = async (resultId,thumbnail,title,price ) => {
+
+  await setDoc(doc(firestore, "allResult", data.resultId), data);
 };
 
 export const updateDocument = async (collectionName, docId, data) => {
