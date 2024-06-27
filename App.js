@@ -15,8 +15,11 @@ const Main = () => {
 
   return (
     <NavigationContainer>
-      <Stack.Navigator initialRouteName={currentUser == null ? "Result" : "Login"}>
-        {currentUser
+      <Stack.Navigator initialRouteName={currentUser != null ? "Result" : "Login"}>
+      <Stack.Screen name="Result" options={{ headerShown: false }}>
+            {props => <ResultView {...props} viewModel={resultViewModel} />}
+          </Stack.Screen>
+        {/* {currentUser != null
           ?
           <Stack.Screen name="Result" options={{ headerShown: false }}>
             {props => <ResultView {...props} viewModel={resultViewModel} />}
@@ -26,7 +29,7 @@ const Main = () => {
             <Stack.Screen name="Login" component={LoginView} />
             <Stack.Screen name="Signup" component={SignupView} />
           </>
-        }
+        } */}
       </Stack.Navigator>
     </NavigationContainer>
   );

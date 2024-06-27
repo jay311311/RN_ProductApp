@@ -14,5 +14,10 @@ const firebaseConfig = {
 // Initialize Firebase
 const app = initializeApp(firebaseConfig);
 const analytics = getAnalytics(app);
-
+// iOS
+// 695753568954-92f7vc7rjacn8h312sfgnc604u1qg1ol.apps.googleusercontent.com
+//anroid
+// 695753568954-7rrdht9ec43mjnn4h5g2f9tui78osp1o.apps.googleusercontent.com
+// web
+// 695753568954-j8lcghq278m15pn3mfib4c2bcalfcven.apps.googleusercontent.com
 export { app, analytics }

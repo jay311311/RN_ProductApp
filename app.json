@@ -12,16 +12,32 @@
       "backgroundColor": "#ffffff"
     },
     "ios": {
-      "supportsTablet": true
+      "supportsTablet": true,
+      "bundleIdentifier": "com.jay311311.RN.ProudctApp"
     },
     "android": {
       "adaptiveIcon": {
         "foregroundImage": "./assets/adaptive-icon.png",
         "backgroundColor": "#ffffff"
-      }
+      },
+      "package": "com.jay311311.RN.ProudctApp"
     },
     "web": {
       "favicon": "./assets/favicon.png"
+    },
+    "extra": {
+      "eas": {
+        "projectId": "67a2a9ee-6d30-49a2-9349-73e54785292e"
+      },
+      "plugins": [
+        ["react-native-fbsdk-next",
+        {
+          "appID": "833219778763119",
+          "clientToken": "b420f93e9c8b1dc080ef0a7f77cc8f0c",
+          "displayName": "RN SDK Demo"
+        }
+      ]
+      ]
     }
   }
 }
