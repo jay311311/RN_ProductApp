@@ -9,7 +9,7 @@ export const AuthProvider = ({ children }) => {
   useEffect(() => {
     const unsubscribe = subscribeToAuthChanges(user => {
       let userInfo = getCurrentUser()
-      console.log(`랜딩후 유저 정보 ${userInfo} // ${user}`)
+      console.log(`userInfo after Landing ${userInfo} // ${user}`)
       setCurrentUser(user);
     });
 

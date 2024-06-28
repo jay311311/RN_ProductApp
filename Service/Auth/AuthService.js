@@ -9,12 +9,11 @@ export const login = async (email, password) => {
 
 export const loginWithGoogle = async () => {
   const provider = new GoogleAuthProvider();
-  console.log(provider);
   try {
     await signInWithCredential(auth, provider);
-    console.log('Google login 성공');
+    console.log('Google login sucess');
   } catch (error) {
-    console.error('Google login 에러:', error);
+    console.error('Google login error:', error);
     throw error;
   }
 };

@@ -3,6 +3,7 @@ import { useState } from 'react';
 import DropDownPicker from 'react-native-dropdown-picker';
 import { View, Text, TextInput, StyleSheet, ScrollView, Image, TouchableOpacity, Dimensions } from 'react-native';
 import useModalViewModel from './ModalViewModel';
+import RadioButtonGroup from '../RadioButton/RadioButtonGroup'
 
 const ModalView = ({ navigation }) => {
     const [brandOpen, setBrandOpen] = useState(false);
@@ -47,13 +48,14 @@ const ModalView = ({ navigation }) => {
     return (
         <View style={styles.modalContainer}>
             <ScrollView contentContainerStyle={styles.modalContent}>
-                <View style={styles.header}>
-                    <Text style={styles.headerText}>Add new item</Text>
-                    <TouchableOpacity
+            <TouchableOpacity
                         style={styles.closeButton}
                         onPress={onClose} >
                         <Text style={styles.closeButtonText}>X</Text>
                     </TouchableOpacity>
+                <View style={styles.header}>
+                    <Text style={styles.headerText}>Add new item</Text>
+                    
                 </View>
                 <View style={styles.dropDownContainer}>
                     <Text style={styles.contentTitle}>Brand *</Text>
@@ -113,45 +115,59 @@ const ModalView = ({ navigation }) => {
                         mode="SIMPLE"
                     />
                 </View>
+                <View style={styles.radioBtnContainer}>
+                <View style={styles.radioGroup}>
                 <Text style={styles.contentTitle}>Size *</Text>
-                <View style={styles.radioGroup}>
-                    {['Small', 'Medium', 'Large'].map(sizeOption => (
-                        <TouchableOpacity
-                            key={sizeOption}
-                            onPress={() => setSize(sizeOption)}>
-                            <Text style={size === sizeOption ? styles.selectedOption : styles.option}>{sizeOption}</Text>
-                        </TouchableOpacity>
-                    ))}
+
+                    <RadioButtonGroup
+                        selected={size}
+                        onSelected={(value) => setSize(value)}>
+                        {['Small', 'Medium', 'Large'].map((radio) => (
+                            <RadioButtonGroup.RadioButtonItem key={radio} value={radio}>
+                                <Text>{radio}</Text>
+                            </RadioButtonGroup.RadioButtonItem>
+                        ))}
+                    </RadioButtonGroup>
                 </View>
+                <View style={styles.radioGroup}>
                 <Text style={styles.contentTitle}>Gender *</Text>
-                <View style={styles.radioGroup}>
-                    {['Woman', 'Man', 'Unisex'].map(genderOption => (
-                        <TouchableOpacity
-                            key={genderOption}
-                            onPress={() => setGender(genderOption)}>
-                            <Text style={gender === genderOption ? styles.selectedOption : styles.option}>{genderOption}</Text>
-                        </TouchableOpacity>
-                    ))}
+
+                    <RadioButtonGroup
+                        selected={gender}
+                        onSelected={(value) => setGender(value)}>
+                        {['Woman', 'Man', 'Unisex'].map((radio) => (
+                            <RadioButtonGroup.RadioButtonItem key={radio} value={radio}>
+                                <Text>{radio}</Text>
+                            </RadioButtonGroup.RadioButtonItem>
+                        ))}
+                    </RadioButtonGroup>
                 </View>
-                <Text style={styles.contentTitle}>Condition *</Text>
-                <View style={styles.radioGroup}>
-                    {['New', 'Used'].map(conditionOption => (
-                        <TouchableOpacity
-                            key={conditionOption}
-                            onPress={() => setCondition(conditionOption)}>
-                            <Text style={condition === conditionOption ? styles.selectedOption : styles.option}>{conditionOption}</Text>
-                        </TouchableOpacity>
-                    ))}
                 </View>
-                <Text style={styles.contentTitle}>Purchase receipt *</Text>
-                <View style={styles.radioGroup}>
-                    {['Yes', 'No'].map(receiptOption => (
-                        <TouchableOpacity
-                            key={receiptOption}
-                            onPress={() => setPurchaseReceipt(receiptOption)}>
-                            <Text style={purchaseReceipt === receiptOption ? styles.selectedOption : styles.option}>{receiptOption}</Text>
-                        </TouchableOpacity>
-                    ))}
+                <View style={styles.radioBtnContainer}>
+                    <View style={styles.radioGroup}>
+                        <Text style={styles.contentTitle}>Condition *</Text>
+                        <RadioButtonGroup
+                            selected={condition}
+                            onSelected={(value) => setCondition(value)}>
+                            {['New', 'Used'].map((radio) => (
+                                <RadioButtonGroup.RadioButtonItem key={radio} value={radio}>
+                                    <Text>{radio}</Text>
+                                </RadioButtonGroup.RadioButtonItem>
+                            ))}
+                        </RadioButtonGroup>
+                    </View>
+                    <View style={styles.radioGroup}>
+                        <Text style={styles.contentTitle}>Purchase receipt *</Text>
+                        <RadioButtonGroup
+                            selected={purchaseReceipt}
+                            onSelected={(value) => setPurchaseReceipt(value)}>
+                            {['New', 'Used'].map((radio) => (
+                                <RadioButtonGroup.RadioButtonItem key={radio} value={radio}>
+                                    <Text>{radio}</Text>
+                                </RadioButtonGroup.RadioButtonItem>
+                            ))}
+                        </RadioButtonGroup>
+                    </View>
                 </View>
                 <Text style={styles.contentTitle}>Add photos</Text>
                 <View style={styles.photoContainer}>
@@ -182,14 +198,12 @@ const ModalView = ({ navigation }) => {
                 </TouchableOpacity>
             </ScrollView>
         </View>
-
     );
 };
 
 const styles = StyleSheet.create({
     modalContainer: {
         flex: 1,
-        paddingTop: 50,
         backgroundColor: 'white',
         justifyContent: 'center',
         alignItems: 'center',
@@ -212,11 +226,12 @@ const styles = StyleSheet.create({
     },
     closeButton: {
         padding: 10,
+        paddingTop:20
     },
     closeButtonText: {
         fontSize: 20,
         fontWeight: 'bold',
-    },
+textAlign:'right'    },
     contentTitle: {
         marginTop: 10,
         marginBottom: 8
@@ -232,8 +247,14 @@ const styles = StyleSheet.create({
         height: 100,
     },
     radioGroup: {
-        flexDirection: 'row',
+        flexDirection: 'column',
         marginBottom: 10,
+        flex:"1",
+        marginTop:5
+    },
+    radioBtnContainer: {
+       marginVertical:5,
+        flexDirection: "row"
     },
     option: {
         marginHorizontal: 10,
@@ -284,7 +305,8 @@ const styles = StyleSheet.create({
     },
     dropDownContainer: {
         zIndex: 100000
-    }
+    },
+
 
 });
 

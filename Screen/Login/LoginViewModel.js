@@ -18,7 +18,6 @@ export default LoginViewModel = () => {
 
     const handleLoginWithGoogle = useCallback(async () => {
         try {
-            console.log("#2-1")
             await loginWithGoogle();
         } catch (error) {
             console.log('googleLogin failed:', error);
