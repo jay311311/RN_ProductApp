@@ -7,32 +7,34 @@ export default SignupView = () => {
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
     const { handleRegister } = SignupViewModel();
-    
+
     return (
         <SafeAreaView style={styles.container}>
-        <View style={styles.inputContainer}>
-            <TextInput
-                style={styles.input}
-                placeholder="Enter your email address."
-                value={email}
-                onChangeText={setEmail}
-                placeholderTextColor="#999"
-            />
-            <TextInput
-                style={styles.input}
-                placeholder="Enter password"
-                value={password}
-                onChangeText={setPassword}
-                secureTextEntry
-                placeholderTextColor="#999"
-            />
-            <TouchableOpacity style={styles.signInButton} onPress={() => handleRegister(email, password)}>
-                <Text style={styles.signInButtonText}>Sign up</Text>
-            </TouchableOpacity>
-        </View>
-    </SafeAreaView>
+            <View style={styles.inputContainer}>
+                <TextInput
+                    style={styles.input}
+                    placeholder="Enter your email address."
+                    value={email}
+                    onChangeText={setEmail}
+                    placeholderTextColor="#999"
+                />
+                <TextInput
+                    style={styles.input}
+                    placeholder="Enter password"
+                    value={password}
+                    onChangeText={setPassword}
+                    secureTextEntry
+                    placeholderTextColor="#999"
+                />
+                <TouchableOpacity
+                    style={styles.signInButton}
+                    onPress={() => handleRegister(email, password)}>
+                    <Text style={styles.signInButtonText}>Sign up</Text>
+                </TouchableOpacity>
+            </View>
+        </SafeAreaView>
     )
-} 
+}
 
 
 const styles = StyleSheet.create({

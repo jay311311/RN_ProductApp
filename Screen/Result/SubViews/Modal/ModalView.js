@@ -37,7 +37,6 @@ const ModalView = ({ navigation }) => {
 
     const onSave = () => {
         handleSave();
-        // onSaveSuccess(newItem);
         onClose();
     };
 
@@ -48,7 +47,6 @@ const ModalView = ({ navigation }) => {
     return (
         <View style={styles.modalContainer}>
             <ScrollView contentContainerStyle={styles.modalContent}>
-
                 <View style={styles.header}>
                     <Text style={styles.headerText}>Add new item</Text>
                     <TouchableOpacity
@@ -57,7 +55,7 @@ const ModalView = ({ navigation }) => {
                         <Text style={styles.closeButtonText}>X</Text>
                     </TouchableOpacity>
                 </View>
-                <View>
+                <View style={styles.dropDownContainer}>
                     <Text style={styles.contentTitle}>Brand *</Text>
                     <View>
                         <DropDownPicker
@@ -66,7 +64,7 @@ const ModalView = ({ navigation }) => {
                                 nestedScrollEnabled: true,
                             }}
                             zIndex={3000}
-                            zIndexInverse={1000}
+                            zIndexInverse={3000}
                             open={brandOpen}
                             value={brandValue}
                             items={branditems}
@@ -104,10 +102,7 @@ const ModalView = ({ navigation }) => {
                         }}
                         zIndex={1000}
                         zIndexInverse={1000}
-                        open={
-                            colorOpen
-
-                        }
+                        open={colorOpen}
                         value={colorValue}
                         items={colorItems}
                         setOpen={setColorOpen}
@@ -287,6 +282,9 @@ const styles = StyleSheet.create({
         fontSize: 16,
         fontWeight: 'bold',
     },
+    dropDownContainer: {
+        zIndex: 100000
+    }
 
 });
 

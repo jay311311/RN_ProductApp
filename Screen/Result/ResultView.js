@@ -19,11 +19,12 @@ export default ResultView = ({ navigation }) => {
 
     const {
         results,
+        isResfesh,
         nextPage,
         prevPage,
         goToPage,
-        isResfesh,
         onRefresh,
+        handleLogout,
         hasNextPage,
         hasPrevPage,
         totalPages,
@@ -64,11 +65,19 @@ export default ResultView = ({ navigation }) => {
                     refreshControl={
                         <RefreshControl refreshing={isResfesh} onRefresh={onRefresh} />}
                 />
-                <TouchableOpacity
-                    style={styles.fixedButton}
-                    onPress={() => { navigation.navigate('Modal') }}>
-                    <Text style={styles.buttonTitle}>+</Text>
-                </TouchableOpacity>
+                <View style={styles.fixedContainer}>
+                    <TouchableOpacity
+                        style={styles.modalButton}
+                        onPress={() => { navigation.navigate('Modal') }}>
+                        <Text style={styles.buttonTitle}>+</Text>
+                    </TouchableOpacity>
+                    <TouchableOpacity
+                        style={styles.logOutButton}
+                        onPress={handleLogout}>
+                        <Text style={styles.logOutButtonText} >Log out</Text>
+                    </TouchableOpacity>
+                </View>
+
                 <View style={styles.pagination}>
                     <TouchableOpacity
                         style={hasPrevPage ? styles.paginationBtn : styles.paginationBtnDisable}
@@ -146,14 +155,33 @@ const styles = StyleSheet.create({
         fontSize: 30,
         color: '#ff7bff',
     },
-    fixedButton: {
+    fixedContainer: {
         position: "absolute",
+        width: 60,
+        bottom: "10%",
+        right: "10%"
+    },
+    modalButton: {
         width: 60,
         height: 60,
         borderRadius: 50,
         backgroundColor: "#007bff",
-        bottom: "10%",
-        right: "10%"
+    },
+    logOutButton: {
+        width: 60,
+        height: 30,
+        justifyContent: "center",
+        alignItems: "center",
+        marginTop: 10,
+        backgroundColor: "#777bff",
+        borderRadius: 5
+    },
+    logOutButtonText: {
+        fontSize: 15,
+        textAlign: 'center',
+        color: 'white',
+        justifyContent: "center",
+        alignItems: "center",
     },
     buttonTitle: {
         fontSize: 45,

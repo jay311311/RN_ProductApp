@@ -1,10 +1,8 @@
 import { useState } from 'react';
-import { useFirestore } from '../../../../Service/Firestore/FirestoreContext'; 
-// import DataService from '../../DataService';
+import { useFirestore } from '../../../../Service/Firestore/FirestoreContext';
 
 export default useModalViewModel = () => {
-    const {addDocument} = useFirestore()
-    // const {initialResult} = DataService()
+    const { addDocument } = useFirestore()
 
     const [brandValue, setBrandValue] = useState('');
     const [modelValue, setModelValue] = useState('');
@@ -20,7 +18,6 @@ export default useModalViewModel = () => {
         try {
             await addDocument(brandValue, modelValue, colorValue, size, gender, condition, purchaseReceipt, photos, description);
             resetForm();
-            // initialResult()
         } catch (error) {
             console.error('Error saving new item:', error);
             throw error;
@@ -38,7 +35,6 @@ export default useModalViewModel = () => {
         setPhotos("http://www.foodsafetykorea.go.kr/uploadimg/cook/20_00033_3.png");
         setDescription('');
     };
-
 
     return {
         brandValue, setBrandValue,

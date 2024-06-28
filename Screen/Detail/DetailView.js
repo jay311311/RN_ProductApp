@@ -1,7 +1,7 @@
 import React from 'react';
 import { StyleSheet, Text, View } from 'react-native';
 
-export default DetailView = () => {
+export default DetailView = ({thumnil, id}) => {
     return (
         <View style={styles.container}>
             <Text style={styles.header}>ResultView!</Text>

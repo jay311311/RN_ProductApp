@@ -1,14 +1,15 @@
 import { useState, useEffect } from 'react';
 import DataService from './DataService';
+import { useAuth } from '../../Service/Auth/AuthContext'
 
 export default useResultViewModel = () => {
   const { getResults, getTotalPages, initialResult } = DataService();
+  const { logout } = useAuth()
   const [page, setPage] = useState(0);
   const [results, setResults] = useState([]);
   const [totalPages, setTotalPages] = useState(0);
   const [currentPage, setCurrentPage] = useState(1);
   const [isResfesh, setIsRefresh] = useState(false)
-
 
   const fetchInitialData = async () => {
     const data = await initialResult();
@@ -17,7 +18,6 @@ export default useResultViewModel = () => {
   };
 
   useEffect(() => {
-    
     fetchInitialData();
   }, []);
 
@@ -54,16 +54,20 @@ export default useResultViewModel = () => {
     setTimeout(() => {
       setIsRefresh(false);
     }, 1000);
+  }
 
+  const handleLogout = () => {
+    logout()
   }
 
   return {
     results,
+    isResfesh,
     nextPage,
     prevPage,
     goToPage,
-    isResfesh,
     onRefresh,
+    handleLogout,
     hasNextPage: page < totalPages - 1,
     hasPrevPage: page > 0,
     totalPages,
