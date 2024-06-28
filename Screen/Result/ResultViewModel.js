@@ -1,58 +1,72 @@
-
 import { useState, useEffect } from 'react';
-
-import FireStoreService from './DummyService';
+import DataService from './DataService';
 
 export default useResultViewModel = () => {
-    const { getResults, getTotalPages, initialResult } = FireStoreService();
-    const [page, setPage] = useState(0);
-    const [isModalVisible, setIsModalVisible] = useState(false);
-    const [results, setResults] = useState([]);
-    const [totalPages, setTotalPages] = useState(0);
+  const { getResults, getTotalPages, initialResult } = DataService();
+  const [page, setPage] = useState(0);
+  const [results, setResults] = useState([]);
+  const [totalPages, setTotalPages] = useState(0);
+  const [currentPage, setCurrentPage] = useState(1);
+  const [isResfesh, setIsRefresh] = useState(false)
 
-    // var results = []
-    // const totalPages = getTotalPages();
 
-  // Fetch initial data
+  const fetchInitialData = async () => {
+    const data = await initialResult();
+    setResults(data);
+    setTotalPages(await getTotalPages());
+  };
+
   useEffect(() => {
-    const fetchInitialData = async () => {
-      const data = await initialResult(); // Ensure to await the initial result
-      setResults(getResults(0));
-      setTotalPages(getTotalPages());
-      console.log(`Fetched data: ${JSON.stringify(data)}`);
-    };
+    
     fetchInitialData();
   }, []);
 
-  // Fetch data for current page
   useEffect(() => {
-    setResults(getResults(page));
+    const fetchData = async () => {
+      let data = await getResults(page)
+      setResults(data);
+    };
+    fetchData();
   }, [page]);
-    const toggleModal = () => {
-        setIsModalVisible(!isModalVisible);
-    };
 
-    const nextPage = () => {
-        if (page < totalPages - 1) {
-            const newPage = page + 1;
-            setPage(newPage);
-        }
-    };
+  const nextPage = () => {
+    if (page < totalPages - 1) {
+      setPage(page + 1);
+      setCurrentPage(currentPage + 1);
+    }
+  };
 
-    const prevPage = () => {
-        if (page > 0) {
-            const newPage = page - 1;
-            setPage(newPage);
-        }
-    };
+  const prevPage = () => {
+    if (page > 0) {
+      setPage(page - 1);
+      setCurrentPage(currentPage - 1);
+    }
+  };
 
-    return {
-        results,
-        nextPage,
-        prevPage,
-        toggleModal,
-        isModalVisible,
-        hasNextPage: page < totalPages - 1,
-        hasPrevPage: page > 0,
-    };
+  const goToPage = (pageNumber) => {
+    setPage(pageNumber - 1);
+    setCurrentPage(pageNumber);
+  };
+
+  const onRefresh = () => {
+    setIsRefresh(true)
+    fetchInitialData();
+    setTimeout(() => {
+      setIsRefresh(false);
+    }, 1000);
+
+  }
+
+  return {
+    results,
+    nextPage,
+    prevPage,
+    goToPage,
+    isResfesh,
+    onRefresh,
+    hasNextPage: page < totalPages - 1,
+    hasPrevPage: page > 0,
+    totalPages,
+    currentPage,
+  };
 }

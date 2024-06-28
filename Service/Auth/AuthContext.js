@@ -1,5 +1,5 @@
 import React, { createContext, useContext, useState, useEffect } from 'react';
-import { login, logout, register, subscribeToAuthChanges, loginWithGoogle } from './AuthService';
+import { login, logout, register, subscribeToAuthChanges, loginWithGoogle, getCurrentUser } from './AuthService';
 
 const AuthContext = createContext();
 
@@ -8,9 +8,8 @@ export const AuthProvider = ({ children }) => {
 
   useEffect(() => {
     const unsubscribe = subscribeToAuthChanges(user => {
-        /* TODO : 
-        getCurrentUser()
-        */
+      let userInfo = getCurrentUser()
+      console.log(`랜딩후 유저 정보 ${userInfo} // ${user}`)
       setCurrentUser(user);
     });
 
@@ -24,7 +23,6 @@ export const AuthProvider = ({ children }) => {
       loginWithGoogle,
       logout,
       register
-      // getCurrentUser,
     }}>
       {children}
     </AuthContext.Provider>

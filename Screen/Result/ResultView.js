@@ -1,59 +1,90 @@
 import React from 'react';
-import { StyleSheet, FlatList, SafeAreaView, Text, View, Button, Image, Dimensions, Pressable } from 'react-native';
+import { StyleSheet, FlatList, Text, View, Image, Dimensions, TouchableOpacity, RefreshControl } from 'react-native';
 import ResultViewModel from "./ResultViewModel";
-import ModalView from './SubViews/ModalView';
+import { useCallback, useState } from 'react';
+import { SafeAreaView, SafeAreaProvider } from 'react-native-safe-area-context';
 
-const ListCell = ({ title, thumbnail }) => (
-    <View style={styles.item}>
-        <Image source={{ uri: thumbnail }} style={styles.image} />
-        <Text style={styles.title}>{title}</Text>
-    </View>
-);
-
-export default ResultView = () => {
-    const { results, isModalVisible, nextPage, prevPage, toggleModal, hasNextPage } = ResultViewModel();
-    return (
-        <SafeAreaView style={styles.container}>
-            <Text style={styles.header}>ResultView!</Text>
-            <FlatList
-                numColumns={2}
-                data={results}
-                renderItem={({ item }) => <ListCell title={item.title} thumbnail={item.thumbnail} />}
-                keyExtractor={item => item.resultId}
-            />
-            <Pressable style={styles.fixedButton}
-                onPress={toggleModal} >
-                <Text style={styles.buttonTitle}>+</Text>
-            </Pressable>
-
-            <View style={styles.pagination}>
-                <Button title="Back" onPress={prevPage}  />
-                <Button title="Next" onPress={nextPage} disabled={!hasNextPage} />
+export default ResultView = ({ navigation }) => {
+    const ListCell = ({ thumbnail, id }) => (
+        <TouchableOpacity
+            style={styles.item}
+            onPress={() => navigation.navigate('Detail')}>
+            <View>
+                <Image
+                    source={{ uri: thumbnail }}
+                    style={styles.image} />
             </View>
-            <ModalView isVisible={isModalVisible} onClose={toggleModal} />
-        </SafeAreaView>
+        </TouchableOpacity>
     );
-    // return (
-    //     <SafeAreaView style={styles.container}>
-    //         <Text style={styles.header}>ResultView!</Text>
-    //         <FlatList
-    //             numColumns={2}
-    //             data={results}
-    //             renderItem={({ item }) => <ListCell title={item.title} thumbnail={item.thumbnail} />}
-    //             keyExtractor={item => item.resultId}
-    //         />
-    //         <Pressable style={styles.fixedButton}
-    //             onPress={toggleModal} >
-    //             <Text style={styles.buttonTitle}>+</Text>
-    //         </Pressable>
 
-    //         <View style={styles.pagination}>
-    //             <Button title="Back" onPress={prevPage} />
-    //             <Button title="Next" onPress={nextPage} disabled={!hasNextPage} />
-    //         </View>
-    //         <ModalView isVisible={isModalVisible} onClose={toggleModal} />
-    //     </SafeAreaView>
-    // );
+    const {
+        results,
+        nextPage,
+        prevPage,
+        goToPage,
+        isResfesh,
+        onRefresh,
+        hasNextPage,
+        hasPrevPage,
+        totalPages,
+        currentPage } = ResultViewModel();
+
+    const renderItem = useCallback(
+        ({ item }) => <ListCell
+            title={item.resultId}
+            thumbnail={item.thumbnail} />, [results]
+    );
+    const keyExtractor = useCallback(
+        (item) => item.id, [results]
+    );
+
+    const pageNumbers = () => {
+        let pages = [];
+        for (let i = 1; i <= totalPages; i++) {
+            pages.push(
+                <TouchableOpacity
+                    key={i}
+                    onPress={() => goToPage(i)}
+                    style={styles.pageNumber}>
+                    <Text style={i === currentPage ? styles.currentPage : styles.pageText}>{i}</Text>
+                </TouchableOpacity>
+            );
+        }
+        return pages;
+    };
+
+    return (
+        <SafeAreaProvider>
+            <SafeAreaView style={styles.container}>
+                <FlatList
+                    numColumns={2}
+                    data={results}
+                    renderItem={renderItem}
+                    keyExtractor={keyExtractor}
+                    refreshControl={
+                        <RefreshControl refreshing={isResfesh} onRefresh={onRefresh} />}
+                />
+                <TouchableOpacity
+                    style={styles.fixedButton}
+                    onPress={() => { navigation.navigate('Modal') }}>
+                    <Text style={styles.buttonTitle}>+</Text>
+                </TouchableOpacity>
+                <View style={styles.pagination}>
+                    <TouchableOpacity
+                        style={hasPrevPage ? styles.paginationBtn : styles.paginationBtnDisable}
+                        onPress={prevPage} disabled={!hasPrevPage}>
+                        <Text style={styles.paginationBtnText}>Back</Text>
+                    </TouchableOpacity>
+                    <View style={styles.pageNumbers}>{pageNumbers()}</View>
+                    <TouchableOpacity
+                        style={hasNextPage ? styles.paginationBtn : styles.paginationBtnDisable}
+                        onPress={nextPage} disabled={!hasNextPage}>
+                        <Text style={styles.paginationBtnText}>Next</Text>
+                    </TouchableOpacity>
+                </View>
+            </SafeAreaView>
+        </SafeAreaProvider>
+    );
 }
 
 const styles = StyleSheet.create({
@@ -61,39 +92,66 @@ const styles = StyleSheet.create({
         flex: 1,
         justifyContent: 'center',
         alignItems: 'center',
-        padding: 16,
-    },
-    header: {
-        fontSize: 24,
-        fontWeight: 'bold',
-        marginBottom: 16,
     },
     item: {
         alignItems: 'center',
         width: "50%",
+        paddingVertical: 8,
+        paddingHorizontal: 16,
     },
     image: {
         width: Dimensions.get('window').width * 0.45,
         height: Dimensions.get('window').width * 0.45,
         borderRadius: 20,
     },
-    title: {
-        fontSize: 16,
-        fontWeight: 'bold',
-        marginTop: 8,
-    },
     pagination: {
         flexDirection: 'row',
         justifyContent: 'space-between',
         width: '80%',
-        marginTop: 16,
+        marginVertical: 5,
+    },
+    paginationBtn: {
+        backgroundColor: '#007bff',
+        paddingVertical: 5,
+        paddingHorizontal: 10,
+        borderRadius: 10,
+        justifyContent: "center"
+    },
+    paginationBtnDisable: {
+        backgroundColor: '#007bff',
+        paddingVertical: 5,
+        paddingHorizontal: 10,
+        borderRadius: 10,
+        justifyContent: "center",
+        opacity: 0
+    },
+    paginationBtnText: {
+        color: 'white',
+        fontSize: 18,
+        fontWeight: 'medium',
+        alignItems: "center",
+        justifyContent: "center"
+    },
+    pageNumbers: {
+        flexDirection: 'row',
+    },
+    pageNumber: {
+        marginHorizontal: 4,
+    },
+    pageText: {
+        fontSize: 30,
+        color: '#007bff',
+    },
+    currentPage: {
+        fontSize: 30,
+        color: '#ff7bff',
     },
     fixedButton: {
         position: "absolute",
         width: 60,
         height: 60,
         borderRadius: 50,
-        backgroundColor: "blue",
+        backgroundColor: "#007bff",
         bottom: "10%",
         right: "10%"
     },
@@ -106,6 +164,5 @@ const styles = StyleSheet.create({
         justifyContent: "center",
         width: 60,
         height: 60,
-    }
-
+    },
 });
