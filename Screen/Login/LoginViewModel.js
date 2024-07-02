@@ -1,7 +1,7 @@
 import { useCallback } from 'react';
 import { Alert } from 'react-native';
 import { useAuth } from '../../Service/Auth/AuthContext';
-import { getAuthErrorMessage } from '../../Service/Error/AuthErrorHandler';
+import { getAuthErrorMessage } from '../../Service/Auth/Error/AuthErrorHandler';
 
 export default LoginViewModel = () => {
     const { login, logout, loginWithGoogle } = useAuth();

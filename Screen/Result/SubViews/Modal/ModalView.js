@@ -59,7 +59,7 @@ const ModalView = ({ navigation }) => {
                 </View>
                 <View style={styles.dropDownContainer}>
                     <Text style={styles.contentTitle}>Brand *</Text>
-                    <View>
+                    <View style={styles.dropDownContainer}>
                         <DropDownPicker
                             listMode="SCROLLVIEW"
                             scrollViewProps={{
@@ -249,7 +249,7 @@ textAlign:'right'    },
     radioGroup: {
         flexDirection: 'column',
         marginBottom: 10,
-        flex:"1",
+        flex:1,
         marginTop:5
     },
     radioBtnContainer: {
@@ -304,7 +304,7 @@ textAlign:'right'    },
         fontWeight: 'bold',
     },
     dropDownContainer: {
-        zIndex: 100000
+        zIndex: 10000
     },
 
 

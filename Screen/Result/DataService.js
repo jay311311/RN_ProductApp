@@ -20,8 +20,12 @@ export default DataService = () => {
   }, [result]);
 
   const getTotalPages = useCallback(async (pageStandard = 10) => {
-    const data = await getCollection();
-    return Math.ceil(data.length / pageStandard);
+    if (result.length == 0) {
+      const data = await getCollection();
+      return Math.ceil(data.length / pageStandard);
+    } else {
+      return Math.ceil(result.length / pageStandard);
+    }
   }, [result]);
 
   const initialResult = useCallback(async () => {

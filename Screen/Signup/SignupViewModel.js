@@ -1,5 +1,8 @@
 import { useCallback } from 'react';
 import { useAuth } from '../../Service/Auth/AuthContext';
+import { Alert } from 'react-native';
+import { getAuthErrorMessage } from '../../Service/Auth/Error/AuthErrorHandler';
+
 
 export default SignupViewModel = () => {
   const { register } = useAuth();
@@ -8,8 +11,10 @@ export default SignupViewModel = () => {
     try {
       await register(email, password);
     } catch (error) {
-      console.error('Registration failed:', error.message);
-    }
+      const errorMessage = getAuthErrorMessage(error)
+      console.log('Login failed:', error.code, errorMessage);
+      Alert.alert('Error', errorMessage);
+  }
   }, [register]);
 
   return {
