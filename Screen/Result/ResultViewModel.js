@@ -2,7 +2,7 @@ import { useState, useEffect } from 'react';
 import DataService from './DataService';
 import { useAuth } from '../../Service/Auth/AuthContext'
 
-export default useResultViewModel = () => {
+export default ResultViewModel = () => {
   const { getResults, getTotalPages, initialResult } = DataService();
   const { logout } = useAuth()
   const [page, setPage] = useState(0);
@@ -56,8 +56,8 @@ export default useResultViewModel = () => {
     }, 1000);
   }
 
-  const handleLogout = () => {
-    logout()
+  const handleLogout = async() => {
+    await logout()
   }
 
   return {

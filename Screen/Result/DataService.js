@@ -5,14 +5,6 @@ export default DataService = () => {
   const { getCollection } = useFirestore();
   const [result, setResult] = useState([]);
 
-  useEffect(() => {
-    const fetchData = async () => {
-      const data = await getCollection();
-      setResult(data);
-    };
-    fetchData();
-  }, []);
-
   const getResults = useCallback((page, pageStandard = 10) => {
     const start = page * pageStandard;
     const end = start + pageStandard;
